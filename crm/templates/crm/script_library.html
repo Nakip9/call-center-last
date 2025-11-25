@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Script Library</h3>
+<div class="row g-3">
+  {% for script in scripts %}
+  <div class="col-md-4">
+    <div class="card bg-secondary h-100">
+      <div class="card-body">
+        <h5 class="card-title">{{ script.script_name }}</h5>
+        <span class="badge bg-info">{{ script.category }}</span>
+        <p class="mt-2">{{ script.script_content|truncatechars:140 }}</p>
+      </div>
+    </div>
+  </div>
+  {% empty %}<p>No scripts found.</p>{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Log Call Attempt for {{ lead.lead_name }}</h3>
+<form method="post" class="card bg-secondary p-3">
+  {% csrf_token %}
+  {% for field in form %}
+  <div class="mb-3">
+    <label class="form-label">{{ field.label }}</label>
+    {{ field }}
+  </div>
+  {% endfor %}
+  <button class="btn btn-primary">Save</button>
+</form>
+{% endblock %}

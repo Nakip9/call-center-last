@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Create Operator</h3>
+<form method="post" class="card bg-secondary p-3">
+  {% csrf_token %}
+  <div class="row g-3">
+    {% for field in form %}
+    <div class="col-md-6">
+      <label class="form-label">{{ field.label }}</label>
+      {{ field }}
+    </div>
+    {% endfor %}
+  </div>
+  <button class="btn btn-primary mt-3">Create User</button>
+</form>
+{% endblock %}

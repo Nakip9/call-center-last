@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Attendance</h3>
+  <a class="btn btn-primary" href="/attendance/toggle/">Clock in/out</a>
+</div>
+<table class="table table-dark table-striped">
+  <thead><tr><th>Date</th><th>Status</th><th>In</th><th>Out</th><th>Operator</th></tr></thead>
+  <tbody>
+    {% for record in records %}
+    <tr>
+      <td>{{ record.date }}</td>
+      <td>{{ record.status }}</td>
+      <td>{{ record.check_in_time }}</td>
+      <td>{{ record.check_out_time|default:"--" }}</td>
+      <td>{{ record.operator }}</td>
+    </tr>
+    {% empty %}<tr><td colspan="5">No attendance records yet.</td></tr>{% endfor %}
+  </tbody>
+</table>
+{% endblock %}
