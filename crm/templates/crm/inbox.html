@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-md-6">
+    <h3>Inbox</h3>
+    <ul class="list-group">
+      {% for msg in messages %}
+      <li class="list-group-item bg-secondary text-light">
+        <strong>{{ msg.sender }}</strong> – {{ msg.timestamp }}<br>
+        {{ msg.message_content }}
+      </li>
+      {% empty %}<li class="list-group-item bg-secondary text-light">No messages yet.</li>{% endfor %}
+    </ul>
+  </div>
+  <div class="col-md-6">
+    <h3>Send Message</h3>
+    <form method="post" class="card bg-secondary p-3">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="mb-3">
+        <label class="form-label">{{ field.label }}</label>
+        {{ field }}
+      </div>
+      {% endfor %}
+      <button class="btn btn-primary">Send</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

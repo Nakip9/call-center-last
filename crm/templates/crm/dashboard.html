@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-3">Добро пожаловать, {{ request.user.first_name|default:request.user.username }}!</h2>
+<p class="text-muted">Role: {{ role }}</p>
+<div class="row g-3">
+  <div class="col-md-4">
+    <div class="card bg-secondary h-100">
+      <div class="card-body">
+        <h5 class="card-title">Latest Leads</h5>
+        <ul class="list-group list-group-flush">
+          {% for lead in leads %}
+          <li class="list-group-item bg-secondary text-light d-flex justify-content-between">
+            <span>{{ lead.lead_name }} ({{ lead.phone_number }})</span>
+            <small class="text-info">{{ lead.get_payment_status_display }}</small>
+          </li>
+          {% empty %}<li class="list-group-item bg-secondary text-light">No leads yet.</li>{% endfor %}
+        </ul>
+        <a href="/leads/new/" class="btn btn-outline-light mt-2">Add Lead</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card bg-secondary h-100">
+      <div class="card-body">
+        <h5 class="card-title">Assigned to you</h5>
+        <ul class="list-group list-group-flush">
+          {% for lead in assigned_leads %}
+          <li class="list-group-item bg-secondary text-light">{{ lead.lead_name }} – {{ lead.stage }}</li>
+          {% empty %}<li class="list-group-item bg-secondary text-light">No assignments.</li>{% endfor %}
+        </ul>
+        <a href="/leads/" class="btn btn-outline-light mt-2">View Leads</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card bg-secondary h-100">
+      <div class="card-body">
+        <h5 class="card-title">Attendance</h5>
+        {% if attendance_today %}
+          <p>Status: {{ attendance_today.status }}</p>
+          <p>In: {{ attendance_today.check_in_time }}<br>Out: {{ attendance_today.check_out_time|default:"--" }}</p>
+        {% else %}
+          <p>You have not clocked in today.</p>
+        {% endif %}
+        <a class="btn btn-outline-light" href="/attendance/toggle/">Clock in/out</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row g-3 mt-3">
+  <div class="col-md-6">
+    <div class="card bg-secondary">
+      <div class="card-body">
+        <h5 class="card-title">Scripts</h5>
+        <ul class="list-group list-group-flush">
+          {% for script in scripts %}
+          <li class="list-group-item bg-secondary text-light">{{ script.script_name }} ({{ script.category }})</li>
+          {% empty %}<li class="list-group-item bg-secondary text-light">No scripts.</li>{% endfor %}
+        </ul>
+        <a href="/scripts/" class="btn btn-outline-light mt-2">Open Library</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card bg-secondary">
+      <div class="card-body">
+        <h5 class="card-title">Recent Messages</h5>
+        <ul class="list-group list-group-flush">
+          {% for msg in recent_messages %}
+          <li class="list-group-item bg-secondary text-light">From {{ msg.sender }}: {{ msg.message_content|truncatechars:60 }}</li>
+          {% empty %}<li class="list-group-item bg-secondary text-light">No messages.</li>{% endfor %}
+        </ul>
+        <a href="/inbox/" class="btn btn-outline-light mt-2">Open Inbox</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
